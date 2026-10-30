@@ -43,7 +43,7 @@
 ## Tech Stack
 
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript 5
-- **Runtime/package manager:** Node.js 20+ with **npm**
+- **Runtime/package manager:** Node.js 20+ with **npm** (no Bun, no Prisma, no extra services)
 - **Styling:** Tailwind CSS 4, shadcn/ui (New York), Lucide icons, framer-motion
 - **Weather data:** [Open-Meteo](https://open-meteo.com) (primary), [MET Norway yr.no Locationforecast 2.0](https://api.met.no) (fallback) — both free, **no API keys required**
 - **State:** React hooks + `localStorage` (no global store needed)
@@ -73,24 +73,27 @@ Open `http://localhost:3000`. The app boots with **Dhaka** by default; tap the c
 npm run dev     # Development server on :3000 (tee'd into dev.log)
 npm run lint    # ESLint (next/core-web-vitals + react-hooks rules)
 npm run build   # Production build → .next/standalone (+ copies static/public)
-npm run start   # Run the standalone production server (NODE_ENV=production)
+npm run start   # Run the standalone production server with Node (NODE_ENV=production)
 ```
 
-Database commands (`db:push`, `db:generate`, …) exist in `package.json` but this app is **stateless** — Prisma/SQLite is unused and no schema is required.
+The app is **fully stateless** — no database, no migrations, no environment variables.
 
 ## Project Structure
+
+Only the files the app actually uses are kept — no scaffold code, no demo folders, no unused components.
 
 ```
 src/
 ├── app/
 │   ├── api/
-│   │   ├── weather/route.ts        # GET  /api/weather — forecast, provider chain, cache
-│   │   └── route.ts                # scaffold health route (unused by the UI)
+│   │   └── weather/route.ts        # GET /api/weather — forecast, provider chain, cache
 │   ├── globals.css                 # Tailwind theme tokens, font-bengali, scrollbars
 │   ├── layout.tsx                  # Fonts (Geist + Noto Sans Bengali), metadata, Toaster
 │   └── page.tsx                    # The single page: header, hero, grids, footer
 ├── components/
-│   ├── ui/                         # shadcn/ui primitives (button, card, command, …)
+│   ├── ui/                         # shadcn/ui primitives actually used:
+│   │                               #   button, card, command, dialog,
+│   │                               #   popover, skeleton, toast, toaster
 │   └── weather/
 │       ├── current-weather.tsx     # Hero card (temp, condition, chips, refresh)
 │       ├── hourly-forecast.tsx     # 24 h strip
@@ -251,9 +254,9 @@ All tunables are plain constants — no env vars needed:
 
 **Add another weather provider** — write `fetchXYZ(lat, lon): Promise<WeatherData>` (see `metno.ts` for the shape) and slot it into the provider chain in `src/app/api/weather/route.ts`.
 
-**Persist forecast history** — the app is stateless by design; Prisma + SQLite are preconfigured if you want to store search history or forecast archives (`prisma/schema.prisma`, `npm run db:push`, then `import { db } from '@/lib/db'`).
-
 **Add pages/routes** — the UI is a single route (`src/app/page.tsx`, client component). API routes live under `src/app/api/**/route.ts`.
+
+**Add shadcn/ui components** — `components.json` is kept for the shadcn CLI (`npx shadcn@latest add <component>`); only the 8 primitives the app uses are committed.
 
 **Styling** — the dynamic page gradient comes from `getWeatherTheme(code, isDay)` in `src/lib/weather.ts`; glass-card look is `border-white/15 bg-white/10 backdrop-blur-md`.
 
