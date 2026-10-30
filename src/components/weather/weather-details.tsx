@@ -38,12 +38,12 @@ function Tile({
 }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/10 p-3">
-      <div className="flex items-center gap-1.5 text-xs text-white/60">
+      <div className="flex items-center gap-1.5 text-xs text-white">
         <span className="opacity-80">{icon}</span>
         {label}
       </div>
       <div className="mt-1 text-lg font-bold leading-tight">{value}</div>
-      {sub ? <div className="text-xs text-white/60">{sub}</div> : null}
+      {sub ? <div className="text-xs text-white">{sub}</div> : null}
     </div>
   );
 }

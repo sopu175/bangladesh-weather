@@ -31,7 +31,7 @@ export function HourlyForecast({ hours, unit, className }: HourlyForecastProps) 
                 i === 0 ? 'bg-white/20' : 'hover:bg-white/10'
               )}
             >
-              <span className="text-xs font-medium text-white/80">
+              <span className="text-xs font-medium text-white">
                 {i === 0 ? 'Now' : formatHourLabel(h.time)}
               </span>
               <WeatherIcon code={h.code} isDay={h.isDay} className="h-7 w-7" />
@@ -39,10 +39,7 @@ export function HourlyForecast({ hours, unit, className }: HourlyForecastProps) 
                 {formatTemp(h.temp, unit)}°
               </span>
               <span
-                className={cn(
-                  'flex items-center gap-0.5 text-[11px] font-medium',
-                  h.precipProb >= 40 ? 'text-white' : 'text-white/60'
-                )}
+                className="flex items-center gap-0.5 text-[11px] font-medium text-white"
                 aria-label={`${h.precipProb}% chance of precipitation`}
               >
                 <Droplets className="h-3 w-3" aria-hidden />

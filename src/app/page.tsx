@@ -35,9 +35,9 @@ function LoadingView() {
 function ErrorView({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
     <div className="mx-auto max-w-md rounded-3xl border border-white/15 bg-white/10 p-8 text-center backdrop-blur-md">
-      <AlertTriangle className="mx-auto h-10 w-10 text-white/85" aria-hidden />
+      <AlertTriangle className="mx-auto h-10 w-10 text-white" aria-hidden />
       <h2 className="mt-3 text-lg font-bold text-white">Could not load weather</h2>
-      <p className="mt-1 text-sm text-white/70">{message}</p>
+      <p className="mt-1 text-sm text-white">{message}</p>
       <Button
         onClick={onRetry}
         className="mt-4 bg-white/20 text-white backdrop-blur hover:bg-white/30"
@@ -74,7 +74,7 @@ export default function Home() {
               <h1 className="text-lg font-extrabold leading-tight tracking-tight text-white">
                 BD Mausam
               </h1>
-              <p className="font-bengali text-[11px] leading-tight text-white/80">
+              <p className="font-bengali text-[11px] leading-tight text-white">
                 বাংলাদেশের আবহাওয়া পূর্বাভাস
               </p>
             </div>
@@ -143,14 +143,14 @@ export default function Home() {
           </>
         ) : (
           <div className="flex justify-center py-16">
-            <Loader2 className="h-6 w-6 animate-spin text-white/70" aria-hidden />
+            <Loader2 className="h-6 w-6 animate-spin text-white" aria-hidden />
           </div>
         )}
       </main>
 
       {/* ---------- Sticky footer ---------- */}
       <footer className="mt-auto border-t border-white/10 bg-black/10 pb-[env(safe-area-inset-bottom)] backdrop-blur-md">
-        <div className="mx-auto w-full max-w-5xl px-4 py-4 text-center text-xs leading-relaxed text-white/70">
+        <div className="mx-auto w-full max-w-5xl px-4 py-4 text-center text-xs leading-relaxed text-white">
           <p>Weather data by Open-Meteo • Times in Asia/Dhaka</p>
           <p className="mt-1">
             Forecasts for all 64 districts of Bangladesh — informational use only.
@@ -159,7 +159,7 @@ export default function Home() {
             Developed by{' '}
             <a
               href="mailto:sopu175@gmail.com"
-              className="font-semibold text-white underline decoration-white/50 underline-offset-2 transition-colors hover:decoration-white"
+              className="font-semibold text-white underline decoration-white underline-offset-2 transition-colors hover:decoration-white"
             >
               Saif Islam
             </a>

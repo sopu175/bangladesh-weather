@@ -40,13 +40,13 @@ export function DailyForecast({ days, unit, className }: DailyForecastProps) {
                 key={d.date}
                 className="flex items-center gap-2 py-2.5 sm:gap-3"
               >
-                <span className="w-16 shrink-0 text-sm font-medium text-white/90">
+                <span className="w-16 shrink-0 text-sm font-medium text-white">
                   {formatDayLabel(d.date, i)}
                 </span>
 
                 <span className="flex w-24 shrink-0 items-center gap-2 sm:w-36">
                   <WeatherIcon code={d.code} isDay className="h-6 w-6 shrink-0" />
-                  <span className="hidden truncate text-xs text-white/70 sm:block">
+                  <span className="hidden truncate text-xs text-white sm:block">
                     {condition.label}
                   </span>
                 </span>
@@ -59,7 +59,7 @@ export function DailyForecast({ days, unit, className }: DailyForecastProps) {
                   {d.precipProb}%
                 </span>
 
-                <span className="w-8 shrink-0 text-right text-sm text-white/60">
+                <span className="w-8 shrink-0 text-right text-sm text-white">
                   {formatTemp(d.min, unit)}°
                 </span>
 

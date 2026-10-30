@@ -44,11 +44,11 @@ export function CurrentWeather({
               <MapPin className="h-5 w-5 shrink-0 opacity-80" aria-hidden />
               {location.name}
             </h2>
-            <span className="font-bengali text-lg text-white/85">
+            <span className="font-bengali text-lg text-white">
               {location.bnName}
             </span>
           </div>
-          <p className="mt-0.5 text-xs text-white/65">
+          <p className="mt-0.5 text-xs text-white">
             {location.division} Division, Bangladesh
             {location.note ? ` • ${location.note}` : ''}
             {location.detected ? ' • GPS detected' : ''}
@@ -80,10 +80,10 @@ export function CurrentWeather({
             <span className="text-6xl font-extrabold leading-none tracking-tighter sm:text-7xl">
               {formatTemp(current.temp, unit)}
             </span>
-            <span className="mt-2 text-2xl font-semibold text-white/80">°{unit}</span>
+            <span className="mt-2 text-2xl font-semibold text-white">°{unit}</span>
           </div>
           <p className="mt-2 text-lg font-semibold">{condition.label}</p>
-          <p className="font-bengali text-sm text-white/75">{condition.bn}</p>
+          <p className="font-bengali text-sm text-white">{condition.bn}</p>
         </div>
 
         <WeatherIcon
@@ -101,7 +101,7 @@ export function CurrentWeather({
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
           <span aria-hidden className="text-white">▲</span>
           H {formatTemp(today.max, unit)}°
-          <span className="text-white/40">|</span>
+          <span className="text-white">|</span>
           <span aria-hidden className="text-white">▼</span>
           L {formatTemp(today.min, unit)}°
         </span>
@@ -112,14 +112,14 @@ export function CurrentWeather({
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
           <Sunrise className="h-3.5 w-3.5 text-white" aria-hidden />
           {formatClock(today.sunrise)}
-          <span className="text-white/40">•</span>
+          <span className="text-white">•</span>
           <Sunset className="h-3.5 w-3.5 text-white" aria-hidden />
           {formatClock(today.sunset)}
         </span>
       </div>
 
       {!location.detected ? (
-        <p className="mt-4 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-white/90">
+        <p className="mt-4 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-white">
           Tip: tap the location icon above to get weather for your exact position in
           Bangladesh.
         </p>
