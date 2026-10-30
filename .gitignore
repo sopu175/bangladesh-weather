@@ -1,8 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,45 +8,70 @@ node_modules
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
 # next.js
-/.next/
-/out/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
 
 # production
-/build
+build/
+dist/
 
-# misc
-.DS_Store
-*.pem
+# testing
+coverage/
+.nyc_output/
 
-# debug
+# env files
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+dev.log
+server.log
 
-# env files (can opt-in for committing if needed)
-.env*
+# runtime pids
+*.pid
+*.pid.lock
+.zscripts/*.pid
+
+# editor / IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
 
 # vercel
 .vercel
 
-
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-local-*
-.claude
-.z-ai-config
-*.log
-dev.log
-dev.out.log
-test
-prompt
 
-server.log
-# Skills directory
+# misc
+*.pem
+*.key
+*.crt
+.local-*
+local-*
+.claude/
+.z-ai-config
+.qoder/
+
+# skills
 /skills/
