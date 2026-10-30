@@ -35,7 +35,7 @@ export function HourlyForecast({ hours, unit, className }: HourlyForecastProps) 
                 {i === 0 ? 'Now' : formatHourLabel(h.time)}
               </span>
               <WeatherIcon code={h.code} isDay={h.isDay} className="h-7 w-7" />
-              <span className="text-sm font-bold">
+              <span className="text-sm font-bold text-white">
                 {formatTemp(h.temp, unit)}°
               </span>
               <span

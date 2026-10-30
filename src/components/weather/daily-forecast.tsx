@@ -73,7 +73,7 @@ export function DailyForecast({ days, unit, className }: DailyForecastProps) {
                   />
                 </span>
 
-                <span className="w-8 shrink-0 text-sm font-bold">
+                <span className="w-8 shrink-0 text-sm font-bold text-white">
                   {formatTemp(d.max, unit)}°
                 </span>
               </li>

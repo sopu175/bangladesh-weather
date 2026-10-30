@@ -42,7 +42,7 @@ function Tile({
         <span>{icon}</span>
         {label}
       </div>
-      <div className="mt-1 text-lg font-bold leading-tight">{value}</div>
+      <div className="mt-1 text-lg font-bold leading-tight text-white">{value}</div>
       {sub ? <div className="text-xs text-white">{sub}</div> : null}
     </div>
   );

@@ -49,7 +49,9 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* This app is an always-dark glass UI: card text must be white by default
+     so values inheriting color inside <Card> never render near-black. */
+  --card-foreground: oklch(0.985 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
