@@ -17,7 +17,7 @@ export function HourlyForecast({ hours, unit, className }: HourlyForecastProps) 
     <Card className="border-white/15 bg-white/10 backdrop-blur-md">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base font-semibold text-white">
-          <Clock className="h-4 w-4 opacity-80" aria-hidden />
+          <Clock className="h-4 w-4" aria-hidden />
           Next 24 Hours
         </CardTitle>
       </CardHeader>

@@ -25,7 +25,7 @@ export function DailyForecast({ days, unit, className }: DailyForecastProps) {
     <Card className="border-white/15 bg-white/10 backdrop-blur-md">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-base font-semibold text-white">
-          <CalendarDays className="h-4 w-4 opacity-80" aria-hidden />
+          <CalendarDays className="h-4 w-4" aria-hidden />
           7-Day Forecast
         </CardTitle>
       </CardHeader>

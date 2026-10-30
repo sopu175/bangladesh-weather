@@ -19,19 +19,19 @@ const notoBengali = Noto_Sans_Bengali({
 });
 
 export const metadata: Metadata = {
-  title: "BD Mausam — Weather Forecast for Bangladesh",
+  title: "Bangladesh Weather — Live Forecast for All 64 Districts",
   description:
     "Live weather and 7-day forecasts for all 64 districts of Bangladesh, with GPS location detection.",
   keywords: [
     "Bangladesh weather",
     "Dhaka weather",
-    "BD Mausam",
+    "Bangladesh Weather",
     "weather forecast Bangladesh",
     "আবহাওয়া",
   ],
   authors: [{ name: "Saif Islam" }],
   openGraph: {
-    title: "BD Mausam — Weather Forecast for Bangladesh",
+    title: "Bangladesh Weather — Live Forecast for All 64 Districts",
     description:
       "Live weather and 7-day forecasts for all 64 districts of Bangladesh.",
     type: "website",

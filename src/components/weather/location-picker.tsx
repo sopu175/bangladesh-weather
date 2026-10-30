@@ -65,10 +65,10 @@ export function LocationPicker({
             className="w-[150px] justify-between border-white/25 bg-white/15 text-white backdrop-blur hover:bg-white/25 hover:text-white sm:w-[190px]"
           >
             <span className="flex min-w-0 items-center gap-1.5">
-              <MapPin className="h-4 w-4 shrink-0 opacity-80" />
+              <MapPin className="h-4 w-4 shrink-0" />
               <span className="truncate">{currentName ?? 'Select district'}</span>
             </span>
-            <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-60" />
+            <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-72 p-0 sm:w-80" align="end">

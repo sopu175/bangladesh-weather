@@ -6,7 +6,7 @@ import type { DailyPoint, HourlyPoint, WeatherData } from '@/lib/weather';
 import { sunTimesForDate } from '@/lib/sun';
 
 const METNO_URL = 'https://api.met.no/weatherapi/locationforecast/2.0/compact';
-const USER_AGENT = 'BDMausam/1.0 (weather app for Bangladesh)';
+const USER_AGENT = 'BangladeshWeather/1.0 (weather app for Bangladesh)';
 
 interface MetNoTimeSeriesEntry {
   time: string;

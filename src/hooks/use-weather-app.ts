@@ -90,8 +90,8 @@ export function useWeatherApp() {
             toast({
               title: 'Outside Bangladesh',
               description: locationRef.current
-                ? 'BD Mausam only covers Bangladesh — keeping your selected district.'
-                : 'BD Mausam only covers Bangladesh. Showing Dhaka instead.',
+                ? 'Bangladesh Weather only covers Bangladesh — keeping your selected district.'
+                : 'Bangladesh Weather only covers Bangladesh. Showing Dhaka instead.',
               variant: 'destructive',
             });
             if (!locationRef.current) {

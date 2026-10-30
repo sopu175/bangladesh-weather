@@ -72,7 +72,7 @@ export default function Home() {
             <BdFlag className="h-6 w-9 shrink-0 rounded shadow-sm" />
             <div className="min-w-0">
               <h1 className="text-lg font-extrabold leading-tight tracking-tight text-white">
-                BD Mausam
+                Bangladesh Weather
               </h1>
               <p className="font-bengali text-[11px] leading-tight text-white">
                 বাংলাদেশের আবহাওয়া পূর্বাভাস

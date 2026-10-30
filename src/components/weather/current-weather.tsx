@@ -41,7 +41,7 @@ export function CurrentWeather({
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="flex items-center gap-1.5 text-xl font-bold sm:text-2xl">
-              <MapPin className="h-5 w-5 shrink-0 opacity-80" aria-hidden />
+              <MapPin className="h-5 w-5 shrink-0" aria-hidden />
               {location.name}
             </h2>
             <span className="font-bengali text-lg text-white">
@@ -95,7 +95,7 @@ export function CurrentWeather({
 
       <div className="mt-5 flex flex-wrap gap-2">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
-          <Thermometer className="h-3.5 w-3.5 opacity-75" aria-hidden />
+          <Thermometer className="h-3.5 w-3.5" aria-hidden />
           Feels like {formatTemp(current.feelsLike, unit)}°
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
@@ -106,7 +106,7 @@ export function CurrentWeather({
           L {formatTemp(today.min, unit)}°
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
-          <Wind className="h-3.5 w-3.5 opacity-75" aria-hidden />
+          <Wind className="h-3.5 w-3.5" aria-hidden />
           Rain chance {rainPeak}%
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
