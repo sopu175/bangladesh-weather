@@ -4,10 +4,8 @@ import { AlertTriangle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useWeatherApp } from '@/hooks/use-weather-app';
-import { useAiInsight } from '@/hooks/use-ai-insight';
 import { LocationPicker } from '@/components/weather/location-picker';
 import { CurrentWeather } from '@/components/weather/current-weather';
-import { AiInsight } from '@/components/weather/ai-insight';
 import { HourlyForecast } from '@/components/weather/hourly-forecast';
 import { DailyForecast } from '@/components/weather/daily-forecast';
 import { WeatherDetails } from '@/components/weather/weather-details';
@@ -37,8 +35,8 @@ function LoadingView() {
 function ErrorView({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
     <div className="mx-auto max-w-md rounded-3xl border border-white/15 bg-white/10 p-8 text-center backdrop-blur-md">
-      <AlertTriangle className="mx-auto h-10 w-10 text-amber-200" aria-hidden />
-      <h2 className="mt-3 text-lg font-bold">Could not load weather</h2>
+      <AlertTriangle className="mx-auto h-10 w-10 text-white/85" aria-hidden />
+      <h2 className="mt-3 text-lg font-bold text-white">Could not load weather</h2>
       <p className="mt-1 text-sm text-white/70">{message}</p>
       <Button
         onClick={onRetry}
@@ -52,11 +50,10 @@ function ErrorView({ message, onRetry }: { message: string; onRetry: () => void 
 
 export default function Home() {
   const app = useWeatherApp();
-  const insight = useAiInsight(app.location, app.weather);
 
   const theme = app.weather
     ? getWeatherTheme(app.weather.current.code, app.weather.current.isDay)
-    : 'from-emerald-600 via-teal-600 to-emerald-500';
+    : 'from-slate-800 via-slate-700 to-slate-600';
 
   const showLoading = !app.weather && app.loading;
   const showError = !!app.error && !app.weather;
@@ -74,10 +71,10 @@ export default function Home() {
           <div className="flex min-w-0 items-center gap-2.5">
             <BdFlag className="h-6 w-9 shrink-0 rounded shadow-sm" />
             <div className="min-w-0">
-              <h1 className="text-lg font-extrabold leading-tight tracking-tight">
+              <h1 className="text-lg font-extrabold leading-tight tracking-tight text-white">
                 BD Mausam
               </h1>
-              <p className="font-bengali text-[11px] leading-tight text-white/70">
+              <p className="font-bengali text-[11px] leading-tight text-white/80">
                 বাংলাদেশের আবহাওয়া পূর্বাভাস
               </p>
             </div>
@@ -96,10 +93,10 @@ export default function Home() {
                   onClick={() => app.changeUnit(u)}
                   aria-pressed={app.unit === u}
                   className={cn(
-                    'min-w-[36px] px-2 py-1.5 text-xs font-bold transition-colors',
+                    'min-w-[36px] px-2 py-1.5 text-xs font-bold text-white transition-colors',
                     app.unit === u
-                      ? 'bg-white text-slate-900'
-                      : 'text-white/80 hover:text-white'
+                      ? 'bg-white/30'
+                      : 'bg-transparent hover:bg-white/10'
                   )}
                 >
                   °{u}
@@ -134,13 +131,6 @@ export default function Home() {
               onRefresh={app.refresh}
             />
 
-            <AiInsight
-              insight={insight.insight}
-              loading={insight.loading}
-              source={insight.source}
-              locationName={app.location.name}
-            />
-
             <HourlyForecast hours={app.weather.hourly} unit={app.unit} />
 
             <div className="grid gap-5 lg:grid-cols-2">
@@ -160,12 +150,19 @@ export default function Home() {
 
       {/* ---------- Sticky footer ---------- */}
       <footer className="mt-auto border-t border-white/10 bg-black/10 pb-[env(safe-area-inset-bottom)] backdrop-blur-md">
-        <div className="mx-auto w-full max-w-5xl px-4 py-4 text-center text-xs leading-relaxed text-white/60">
-          <p>
-            Weather data by Open-Meteo • AI briefings by Z.ai • Times in Asia/Dhaka
-          </p>
+        <div className="mx-auto w-full max-w-5xl px-4 py-4 text-center text-xs leading-relaxed text-white/70">
+          <p>Weather data by Open-Meteo • Times in Asia/Dhaka</p>
           <p className="mt-1">
             Forecasts for all 64 districts of Bangladesh — informational use only.
+          </p>
+          <p className="mt-1.5 text-white">
+            Developed by{' '}
+            <a
+              href="mailto:sopu175@gmail.com"
+              className="font-semibold text-white underline decoration-white/50 underline-offset-2 transition-colors hover:decoration-white"
+            >
+              Saif Islam
+            </a>
           </p>
         </div>
       </footer>

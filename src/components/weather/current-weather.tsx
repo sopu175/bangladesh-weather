@@ -99,10 +99,10 @@ export function CurrentWeather({
           Feels like {formatTemp(current.feelsLike, unit)}°
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
-          <span aria-hidden className="text-amber-200">▲</span>
+          <span aria-hidden className="text-white">▲</span>
           H {formatTemp(today.max, unit)}°
           <span className="text-white/40">|</span>
-          <span aria-hidden className="text-cyan-200">▼</span>
+          <span aria-hidden className="text-white">▼</span>
           L {formatTemp(today.min, unit)}°
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
@@ -110,16 +110,16 @@ export function CurrentWeather({
           Rain chance {rainPeak}%
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium">
-          <Sunrise className="h-3.5 w-3.5 text-amber-200" aria-hidden />
+          <Sunrise className="h-3.5 w-3.5 text-white" aria-hidden />
           {formatClock(today.sunrise)}
           <span className="text-white/40">•</span>
-          <Sunset className="h-3.5 w-3.5 text-orange-200" aria-hidden />
+          <Sunset className="h-3.5 w-3.5 text-white" aria-hidden />
           {formatClock(today.sunset)}
         </span>
       </div>
 
       {!location.detected ? (
-        <p className="mt-4 rounded-xl border border-amber-200/25 bg-amber-200/10 px-3 py-2 text-xs text-amber-100">
+        <p className="mt-4 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-white/90">
           Tip: tap the location icon above to get weather for your exact position in
           Bangladesh.
         </p>

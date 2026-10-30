@@ -101,12 +101,12 @@ export function WeatherDetails({ current, today, className }: WeatherDetailsProp
           sub={`${today.precipProb}% chance`}
         />
         <Tile
-          icon={<Sunrise className="h-3.5 w-3.5 text-amber-200" aria-hidden />}
+          icon={<Sunrise className="h-3.5 w-3.5 text-white" aria-hidden />}
           label="Sunrise"
           value={formatClock(today.sunrise)}
         />
         <Tile
-          icon={<Sunset className="h-3.5 w-3.5 text-orange-200" aria-hidden />}
+          icon={<Sunset className="h-3.5 w-3.5 text-white" aria-hidden />}
           label="Sunset"
           value={formatClock(today.sunset)}
         />

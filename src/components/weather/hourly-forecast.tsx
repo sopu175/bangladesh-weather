@@ -41,7 +41,7 @@ export function HourlyForecast({ hours, unit, className }: HourlyForecastProps) 
               <span
                 className={cn(
                   'flex items-center gap-0.5 text-[11px] font-medium',
-                  h.precipProb >= 40 ? 'text-cyan-200' : 'text-white/50'
+                  h.precipProb >= 40 ? 'text-white' : 'text-white/60'
                 )}
                 aria-label={`${h.precipProb}% chance of precipitation`}
               >

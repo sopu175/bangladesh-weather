@@ -52,7 +52,7 @@ export function DailyForecast({ days, unit, className }: DailyForecastProps) {
                 </span>
 
                 <span
-                  className="flex w-11 shrink-0 items-center justify-end gap-0.5 text-xs text-cyan-200"
+                  className="flex w-11 shrink-0 items-center justify-end gap-0.5 text-xs text-white"
                   aria-label={`${d.precipProb}% chance of rain`}
                 >
                   <Droplets className="h-3 w-3" aria-hidden />
