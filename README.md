@@ -21,14 +21,16 @@
 3. [Quick Start](#quick-start)
 4. [Branches & Workflow](#branches--workflow)
 5. [Build & Run](#build--run)
-6. [Project Structure](#project-structure)
-7. [API Reference](#api-reference)
-8. [Data Providers & Fallback Logic](#data-providers--fallback-logic)
-9. [Geolocation Flow](#geolocation-flow)
-10. [WMO Weather Codes](#wmo-weather-codes)
-11. [Configuration Knobs](#configuration-knobs)
-12. [How to Extend](#how-to-extend)
-13. [Troubleshooting](#troubleshooting)
+6. [Deployment](#deployment)
+7. [Project Structure](#project-structure)
+8. [API Reference](#api-reference)
+9. [Data Providers & Fallback Logic](#data-providers--fallback-logic)
+10. [Geolocation Flow](#geolocation-flow)
+11. [WMO Weather Codes](#wmo-weather-codes)
+12. [Configuration Knobs](#configuration-knobs)
+13. [Performance & Caching](#performance--caching)
+14. [How to Extend](#how-to-extend)
+15. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -39,23 +41,49 @@
 | GPS location detection | Browser Geolocation API → nearest-district match (haversine) → distance note if > 15 km away |
 | Bangladesh-only guard | Coordinates outside `20.5–26.75°N / 87.9–92.8°E` are rejected client- **and** server-side |
 | 64 districts | All districts of the 8 divisions, searchable, English + বাংলা names |
+| Division-grouped picker | Searchable combobox (cmdk) grouped by division; default location is Dhaka |
 | Current weather | Temp, feels-like, humidity, wind + direction, pressure, UV, cloud cover, precipitation |
 | Hourly (24 h) | Horizontally scrollable strip with precipitation probability |
 | Daily (7 days) | Min/max with temperature range bars, rain chance, sunrise/sunset |
 | °C / °F toggle | Persisted in `localStorage` |
 | Persistence | Selected district + unit survive reloads (`localStorage`) |
 | Auto refresh | Weather quietly refreshes every 10 minutes; manual refresh button too |
-| Dynamic theming | Page gradient changes with weather condition + day/night |
+| Dynamic theming | Page gradient changes with weather condition + day/night (`getWeatherTheme`) |
 | All-white typography | Every text element renders in pure white over the dynamic gradient |
 | i18n-lite | Bangla (বাংলা) labels via the `Noto Sans Bengali` font (`font-bengali` utility) |
+| Friendly error states | Skeletons while loading, retry button on failure, toasts for GPS/detection problems |
+| Mobile-first layout | Glass-card UI (`backdrop-blur`) tuned for phones; works fine on desktop too |
 
 ## Tech Stack
 
-- **Framework:** Next.js 16 (App Router) + React 19 + TypeScript 5
-- **Runtime/package manager:** Node.js 20+ with **npm** (no Bun, no Prisma, no extra services)
-- **Styling:** Tailwind CSS 4, shadcn/ui (New York), Lucide icons, framer-motion
-- **Weather data:** [Open-Meteo](https://open-meteo.com) (primary), [MET Norway yr.no Locationforecast 2.0](https://api.met.no) (fallback) — both free, **no API keys required**
-- **State:** React hooks + `localStorage` (no global store needed)
+| Layer | Choice | Notes |
+| --- | --- | --- |
+| Framework | **Next.js 16** (App Router, Turbopack) | One page + one API route; standalone output for production |
+| UI library | **React 19** | Client component for the whole UI, server route handler for the API |
+| Language | **TypeScript 5** | Strict config, path alias `@/* → ./src/*` |
+| Styling | **Tailwind CSS 4** (CSS-first config) | Design tokens live in `globals.css` via `@theme`, no `tailwind.config` |
+| Components | **shadcn/ui** (New York style) | 8 primitives in use: button, card, command, dialog, popover, skeleton, toast, toaster |
+| Icons | **Lucide React** | Weather icons are WMO-code → Lucide mappings with motion |
+| Animation | **framer-motion** | Icon transitions and small UI motion |
+| Fonts | **Geist**, **Geist Mono**, **Noto Sans Bengali** | Loaded with `next/font/google`; Bengali via the `font-bengali` utility |
+| Weather data | **[Open-Meteo](https://open-meteo.com)** (primary), **[MET Norway Locationforecast 2.0](https://api.met.no)** (fallback) | Both free, **no API keys required** |
+| State | React hooks + `localStorage` | Keys: `bd-wx:loc`, `bd-wx:unit` — no global store, no backend session |
+| Runtime | **Node.js 20+** with **npm** | API route pinned to the Node runtime |
+
+### How it fits together
+
+```
+Browser (src/app/page.tsx, 'use client')
+   │  GET /api/weather?lat=…&lon=…
+   ▼
+Next.js route handler (src/app/api/weather/route.ts)
+   │  validate coords → Bangladesh bounds check → 5-min memory cache
+   ▼
+Provider chain: Open-Meteo → (fail) → met.no → (fail) → 502
+   │  both normalized to the same WeatherData shape
+   ▼
+UI renders current / hourly / daily from one JSON payload
+```
 
 ## Quick Start
 
@@ -98,11 +126,18 @@ Feature workflow: branch off `develop` (or `third-party` for external work), ope
 
 ## Build & Run
 
+| Script | Command | What it does |
+| --- | --- | --- |
+| `npm run dev` | `node scripts/dev.mjs` | Starts `next dev` on the first free port starting at **3000**; output tee'd to `dev.log` |
+| `npm run lint` | `eslint .` | ESLint flat config (`eslint-config-next/core-web-vitals`) |
+| `npm run build` | `next build` + copy step | Production build, then copies `.next/static` and `public/` into `.next/standalone/` |
+| `npm run start` | `node .next/standalone/server.js` | Runs the self-contained server with `NODE_ENV=production`; logs tee'd to `server.log` |
+
 ```bash
-npm run dev     # Development server — auto-selects a free port (starts at :3000), tee'd into dev.log
-npm run lint    # ESLint (next/core-web-vitals)
-npm run build   # Production build → .next/standalone (+ copies static/public)
-npm run start   # Run the standalone production server with Node (NODE_ENV=production)
+npm run dev      # development
+npm run lint     # lint
+npm run build    # production build
+npm run start    # serve production build
 ```
 
 The app is **fully stateless** — no database, no migrations, no environment variables.
@@ -114,6 +149,25 @@ The app is **fully stateless** — no database, no migrations, no environment va
 1. Checks if port `3000` is free (or `PORT` if set: `PORT=4000 npm run dev`)
 2. If busy, scans upward for the next free port and prints which one it uses
 3. Starts `next dev` on that port and tees output to `dev.log`
+
+## Deployment
+
+`next.config.ts` sets `output: "standalone"`, so the build produces a self-contained Node server — no `next start` CLI needed.
+
+```bash
+npm run build
+npm run start
+# equivalent to: NODE_ENV=production node .next/standalone/server.js
+```
+
+The build script copies `.next/static` and `public/` into `.next/standalone/`, so the folder can be shipped as-is to any host that can run Node 20+ (VM, Docker, Railway, a $5 VPS, etc.). No build tools or npm install required on the target machine.
+
+**Checklist for production:**
+
+- Expose the port the server listens on (Next picks up `PORT` automatically)
+- Put HTTPS in front of it (geolocation requires a secure context)
+- Optional: run under a process manager (`pm2`, `systemd`) and proxy with Caddy/nginx
+- Watch `server.log` for errors — provider failures show up there
 
 ## Project Structure
 
@@ -286,6 +340,19 @@ All tunables are plain constants — no env vars needed:
 | GPS timeout / max age | `use-weather-app.ts` → `getCurrentPosition` options | 12 s / 5 min |
 | "Far from district" threshold | `use-weather-app.ts` (`distanceKm > 15`) | 15 km |
 | Bangladesh bounds | `src/lib/bd-districts.ts` → `BD_BOUNDS` | 20.5–26.75°N, 87.9–92.8°E |
+
+## Performance & Caching
+
+| Layer | Strategy | Effect |
+| --- | --- | --- |
+| Server cache | In-memory `Map`, 5 min TTL, key = `lat,lon` rounded to 2 dp, capped at **100 entries** | Repeat coordinates answer in a few ms; satisfies met.no's "cache our data" requirement |
+| Upstream timeouts | Open-Meteo **8 s**, met.no **10 s** (`AbortController`) | Bad provider degrades to the next one instead of hanging the request |
+| Client refresh | Silent refetch every **10 min** + manual refresh button | Keeps the page fresh without hammering the API |
+| Response headers | `Cache-Control: no-store` on `/api/weather` | Browser never caches weather JSON; freshness is owned by the server cache |
+| Data payload | One request returns current + 24 h hourly + 7-day daily | No waterfall of N requests for one screen |
+| Images / assets | No stock photography; icons are inline SVG/Lucide | Tiny bundle, no image optimization pipeline needed |
+
+The API is a **Node-runtime** route (`export const runtime = 'nodejs'`), so caching works in process memory across requests — no Redis or external cache required for a single-instance deploy. If you scale to multiple instances, each keeps its own 5-minute cache (still correct, just slightly more upstream calls).
 
 ## How to Extend
 
