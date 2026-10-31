@@ -1,8 +1,16 @@
 # Bangladesh Weather 🇧🇩 — Weather Forecast App for Bangladesh
 
+[![GitHub](https://img.shields.io/badge/GitHub-sopu175%2Fbangladesh--weather-181717?logo=github)](https://github.com/sopu175/bangladesh-weather)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+
 **Bangladesh Weather** (বাংলাদেশের আবহাওয়া) is a mobile-first weather prediction app built exclusively for **Bangladesh**. It covers all **64 districts**, detects the user's GPS location (rejecting anything outside Bangladesh), and renders live conditions, a 24-hour strip, and a 7-day forecast.
 
 > ⚠️ Informational use only — do not rely on it for emergency or safety decisions.
+
+**Repository:** [github.com/sopu175/bangladesh-weather](https://github.com/sopu175/bangladesh-weather)
 
 ---
 
@@ -11,15 +19,16 @@
 1. [Features](#features)
 2. [Tech Stack](#tech-stack)
 3. [Quick Start](#quick-start)
-4. [Build & Run](#build--run)
-5. [Project Structure](#project-structure)
-6. [API Reference](#api-reference)
-7. [Data Providers & Fallback Logic](#data-providers--fallback-logic)
-8. [Geolocation Flow](#geolocation-flow)
-9. [WMO Weather Codes](#wmo-weather-codes)
-10. [Configuration Knobs](#configuration-knobs)
-11. [How to Extend](#how-to-extend)
-12. [Troubleshooting](#troubleshooting)
+4. [Branches & Workflow](#branches--workflow)
+5. [Build & Run](#build--run)
+6. [Project Structure](#project-structure)
+7. [API Reference](#api-reference)
+8. [Data Providers & Fallback Logic](#data-providers--fallback-logic)
+9. [Geolocation Flow](#geolocation-flow)
+10. [WMO Weather Codes](#wmo-weather-codes)
+11. [Configuration Knobs](#configuration-knobs)
+12. [How to Extend](#how-to-extend)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -51,65 +60,95 @@
 ## Quick Start
 
 ```bash
-# 1. Install dependencies (npm)
+# 1. Clone the repository
+git clone https://github.com/sopu175/bangladesh-weather.git
+cd bangladesh-weather
+
+# 2. Install dependencies (npm)
 npm install
 
-# 2. Start the dev server (port 3000, logs streamed to dev.log)
+# 3. Start the dev server (auto-picks a free port, logs streamed to dev.log)
 npm run dev
 
-# 3. Lint
+# 4. Lint
 npm run lint
 ```
 
-Open `http://localhost:3000`. The app boots with **Dhaka** by default; tap the crosshair button to detect your location.
+Open the URL printed in the terminal — usually `http://localhost:3000`, but if port 3000 is busy it automatically falls back to the next free port (e.g. `3001`). The app boots with **Dhaka** by default; tap the crosshair button to detect your location.
 
 **Prerequisites:** Node.js 20+ with npm. No `.env` file and no API keys are needed to run.
 
 > ℹ️ Browser geolocation only works on `https://` or `http://localhost`. If you expose the app over plain HTTP on a LAN, GPS detection will be blocked by the browser — the district picker still works.
 
+## Branches & Workflow
+
+| Branch | Purpose |
+| --- | --- |
+| `main` | Stable / production-ready code. Push here only for releases. |
+| `develop` | Day-to-day development. Default branch for feature work. |
+| `third-party` | Third-party / external contributor work. |
+
+```bash
+git checkout develop      # feature development
+git checkout third-party  # external / third-party contributions
+git checkout main         # stable releases only
+```
+
+Feature workflow: branch off `develop` (or `third-party` for external work), open a PR back into that branch, then merge `develop` → `main` for releases.
+
 ## Build & Run
 
 ```bash
-npm run dev     # Development server on :3000 (tee'd into dev.log)
-npm run lint    # ESLint (next/core-web-vitals + react-hooks rules)
+npm run dev     # Development server — auto-selects a free port (starts at :3000), tee'd into dev.log
+npm run lint    # ESLint (next/core-web-vitals)
 npm run build   # Production build → .next/standalone (+ copies static/public)
 npm run start   # Run the standalone production server with Node (NODE_ENV=production)
 ```
 
 The app is **fully stateless** — no database, no migrations, no environment variables.
 
+### Dev port fallback
+
+`npm run dev` runs `scripts/dev.mjs`, which:
+
+1. Checks if port `3000` is free (or `PORT` if set: `PORT=4000 npm run dev`)
+2. If busy, scans upward for the next free port and prints which one it uses
+3. Starts `next dev` on that port and tees output to `dev.log`
+
 ## Project Structure
 
 Only the files the app actually uses are kept — no scaffold code, no demo folders, no unused components.
 
 ```
+scripts/
+└── dev.mjs                       # Dev launcher: free-port detection + next dev + tee dev.log
 src/
 ├── app/
 │   ├── api/
-│   │   └── weather/route.ts        # GET /api/weather — forecast, provider chain, cache
-│   ├── globals.css                 # Tailwind theme tokens, font-bengali, scrollbars
-│   ├── layout.tsx                  # Fonts (Geist + Noto Sans Bengali), metadata, Toaster
-│   └── page.tsx                    # The single page: header, hero, grids, footer
+│   │   └── weather/route.ts      # GET /api/weather — forecast, provider chain, cache
+│   ├── globals.css               # Tailwind theme tokens, font-bengali, scrollbars
+│   ├── layout.tsx                # Fonts (Geist + Noto Sans Bengali), metadata, Toaster
+│   └── page.tsx                  # The single page: header, hero, grids, footer
 ├── components/
-│   ├── ui/                         # shadcn/ui primitives actually used:
-│   │                               #   button, card, command, dialog,
-│   │                               #   popover, skeleton, toast, toaster
+│   ├── ui/                       # shadcn/ui primitives actually used:
+│   │                             #   button, card, command, dialog,
+│   │                             #   popover, skeleton, toast, toaster
 │   └── weather/
-│       ├── current-weather.tsx     # Hero card (temp, condition, chips, refresh)
-│       ├── hourly-forecast.tsx     # 24 h strip
-│       ├── daily-forecast.tsx      # 7-day list with range bars
-│       ├── weather-details.tsx     # Conditions tile grid
-│       ├── location-picker.tsx     # GPS button + searchable district combobox
-│       └── weather-icon.tsx        # WMO code → animated Lucide icon
+│       ├── current-weather.tsx   # Hero card (temp, condition, chips, refresh)
+│       ├── hourly-forecast.tsx   # 24 h strip
+│       ├── daily-forecast.tsx    # 7-day list with range bars
+│       ├── weather-details.tsx   # Conditions tile grid
+│       ├── location-picker.tsx   # GPS button + searchable district combobox
+│       └── weather-icon.tsx      # WMO code → animated Lucide icon
 ├── hooks/
-│   ├── use-weather-app.ts          # App state: location, weather fetch, geolocation, unit
-│   └── use-toast.ts                # shadcn toast
+│   ├── use-weather-app.ts        # App state: location, weather fetch, geolocation, unit
+│   └── use-toast.ts              # shadcn toast
 └── lib/
-    ├── bd-districts.ts             # 64 districts, divisions, bounds, haversine, nearestDistrict
-    ├── weather.ts                  # Shared types, WMO labels (EN/বাংলা), gradients, formatters
-    ├── metno.ts                    # met.no adapter → WeatherData (symbol→WMO, Dhaka time, …)
-    ├── sun.ts                      # Sunrise/sunset computation (NOAA/SunCalc math)
-    └── utils.ts                    # shadcn cn()
+    ├── bd-districts.ts           # 64 districts, divisions, bounds, haversine, nearestDistrict
+    ├── weather.ts                # Shared types, WMO labels (EN/বাংলা), gradients, formatters
+    ├── metno.ts                  # met.no adapter → WeatherData (symbol→WMO, Dhaka time, …)
+    ├── sun.ts                    # Sunrise/sunset computation (NOAA/SunCalc math)
+    └── utils.ts                  # shadcn cn()
 ```
 
 ## API Reference
@@ -268,11 +307,21 @@ All tunables are plain constants — no env vars needed:
 | Logs show `open-meteo responded 429` | Shared-IP daily quota hit; the app automatically serves met.no data. Quota resets (UTC midnight). |
 | GPS button says "Permission denied" | Allow location in browser site settings; geolocation needs HTTPS or localhost. |
 | Bangla text renders in a fallback font | `Noto_Sans_Bengali` is fetched from Google Fonts at build/dev time — ensure network access, or self-host the font. |
-| Port 3000 busy | Change the port in the `dev` script in `package.json`. |
-| Where are the server logs? | Dev server output is tee'd to `dev.log` in the project root. |
+| Port 3000 busy | No action needed — `npm run dev` automatically picks the next free port. Force a specific port with `PORT=4000 npm run dev`. |
+| Where are the server logs? | Dev server output is tee'd to `dev.log` in the project root; production to `server.log`. |
+
+## Contributing
+
+1. Fork the repo and clone it.
+2. Work on `develop` (internal) or `third-party` (external contributions).
+3. Create a feature branch (`git checkout -b feature/my-change develop`).
+4. Commit with a clear message; run `npm run lint` before opening a PR.
+5. Open a PR against `develop` (or `third-party`). Maintainers merge to `main` for releases.
 
 ---
 
 Made for Bangladesh — covering all 64 districts, from Panchagarh to Cox's Bazar. 🇧🇩
 
 Developed by [Saif Islam](mailto:sopu175@gmail.com)
+
+**Repo:** [github.com/sopu175/bangladesh-weather](https://github.com/sopu175/bangladesh-weather)
