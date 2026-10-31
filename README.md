@@ -1,5 +1,6 @@
 # Bangladesh Weather 🇧🇩 — Weather Forecast App for Bangladesh
 
+[![Live](https://img.shields.io/badge/Live-bangladesh--weather.netlify.app-00C853?logo=netlify&logoColor=white)](https://bangladesh-weather.netlify.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-sopu175%2Fbangladesh--weather-181717?logo=github)](https://github.com/sopu175/bangladesh-weather)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
@@ -10,7 +11,7 @@
 
 > ⚠️ Informational use only — do not rely on it for emergency or safety decisions.
 
-**Repository:** [github.com/sopu175/bangladesh-weather](https://github.com/sopu175/bangladesh-weather)
+🌐 **Live:** [bangladesh-weather.netlify.app](https://bangladesh-weather.netlify.app/) &nbsp;|&nbsp; 📦 **Repository:** [github.com/sopu175/bangladesh-weather](https://github.com/sopu175/bangladesh-weather)
 
 ---
 
@@ -391,4 +392,4 @@ Made for Bangladesh — covering all 64 districts, from Panchagarh to Cox's Baza
 
 Developed by [Saif Islam](mailto:sopu175@gmail.com)
 
-**Repo:** [github.com/sopu175/bangladesh-weather](https://github.com/sopu175/bangladesh-weather)
+**Live:** [bangladesh-weather.netlify.app](https://bangladesh-weather.netlify.app/) &nbsp;·&nbsp; **Repo:** [github.com/sopu175/bangladesh-weather](https://github.com/sopu175/bangladesh-weather)
